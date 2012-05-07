@@ -36,6 +36,13 @@ function codeEvalExecute(line)
 	filledCount = 0;
 	floodFill(0, 0);
 	
+	filledCount -= (1 +		// Overlap at origin
+					299 +	// Overlap on the other quadrants
+					299 +
+					298 +
+					298
+		);
+	
 	function floodFill(x, y) {
 		stack.push([x, y]);
 		while (stack.length > 0) {
@@ -49,7 +56,7 @@ function codeEvalExecute(line)
 		if (x >= 0 && x < testScale && y >= 0 && y < testScale) {
 			if (isFillable(x, y)) {
 				grid[x][y].filled = true;
-				filledCount++;
+				filledCount += 4;
 			}
 			if (isFillable(x+1, y)) {
 				stack.push([x+1, y]);
@@ -74,11 +81,10 @@ function codeEvalExecute(line)
 	
 	// If you want to see what this does check out
 	// http://ehalferty.github.com/grid_walk.html
-	// (and wait several minutes while your PC chugs away doing jquery stuff!)
+	// (and wait while your PC chugs away doing jquery stuff!)
 	drawGrid(grid, 4);
 	
-	return filledCount * 4;
-	
+	return filledCount;
 }
 
 function drawGrid(grid, gridScale) {
