@@ -72,6 +72,9 @@ function codeEvalExecute(line)
 		}
 	}
 	
+	// If you want to see what this does check out
+	// http://ehalferty.github.com/grid_walk.html
+	// (and wait several minutes while your PC chugs away doing jquery stuff!)
 	drawGrid(grid, 4);
 	
 	return filledCount * 4;
@@ -82,11 +85,12 @@ function drawGrid(grid, gridScale) {
 	grid.forEach(function(row, y) {
 		row.forEach(function(space, x) {
 			c = (space.accessible?  (space.filled? "purple" : "silver") : "red");
-			$("canvas").drawArc({
+			$("canvas").drawRect({
 				fillStyle: c,
 				x: x * gridScale + gridScale,
 				y: y * gridScale + gridScale,
-				radius: (gridScale * (2/5))
+				height: gridScale-1,
+				width: gridScale-1
 			});
 		});
 	});
