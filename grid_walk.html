@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="https://raw.github.com/caleb531/jcanvas/master/builds/5.2.1/jcanvas.min.js" type="text/javascript"></script>
+<body>
+<canvas id="canvas" width="1500" height="1500"></canvas>
+<script type="text/javascript">
+$("document").ready(function() { visualizeProblem(); });
+
+// Sample code to read in test cases:
+function visualizeProblem() 
+{
+	
+	testScale = 325;
+	grid = [];
+	
+	for (i = 0; i < testScale; i++) {
+		row = [];
+		for (j = 0; j < testScale; j++) {
+			// Separate out the digits of the x and y values
+			coordinate_digits = [];
+			coordinate_digits = (i + "").split('').concat((j + "").split(''));
+			sum = 0;
+			coordinate_digits.forEach(function(digit) {
+				sum += Number(digit);
+			});
+			if (sum > 19) {
+				row.push(true);
+			} else {
+				row.push(false);
+			}
+		}
+		grid.push(row);
+	}
+	
+	drawGrid(grid, 4);
+
+}
+
+function drawGrid(grid, gridScale) {
+	
+	grid.forEach(function(row, y) {
+		row.forEach(function(space, x) {
+			c = (space? "purple" : "silver");
+			$("canvas").drawRect({
+				fillStyle: c,
+				x: x * gridScale + gridScale,
+				y: y * gridScale + gridScale,
+				width: gridScale - 1,
+				height: gridScale - 1
+			});
+		});
+	});
+}
+
+</script>
+</body>
+</html>
