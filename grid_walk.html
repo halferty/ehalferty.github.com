@@ -3,51 +3,90 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 <script src="https://raw.github.com/caleb531/jcanvas/master/builds/5.2.1/jcanvas.min.js" type="text/javascript"></script>
 <body>
-<canvas id="canvas" width="1500" height="1500"></canvas>
+<span id="status"></span>
+<canvas id="canvas" width="2000" height="2000"></canvas>
 <script type="text/javascript">
-$("document").ready(function() { visualizeProblem(); });
+$("document").ready(function() { $("#status").text(codeEvalExecute("")); });
 
-// Sample code to read in test cases:
-function visualizeProblem() 
+function codeEvalExecute(line) 
 {
-	
-	testScale = 325;
 	grid = [];
 	
+	// Identify all inaccessible areas in (-299,-299),(299,299)
+	testScale = 300;
 	for (i = 0; i < testScale; i++) {
 		row = [];
 		for (j = 0; j < testScale; j++) {
 			// Separate out the digits of the x and y values
-			coordinate_digits = [];
 			coordinate_digits = (i + "").split('').concat((j + "").split(''));
 			sum = 0;
 			coordinate_digits.forEach(function(digit) {
 				sum += Number(digit);
 			});
-			if (sum > 19) {
-				row.push(true);
-			} else {
-				row.push(false);
-			}
+			row.push({
+				"accessible": !(sum > 19),
+				"filled": false
+				});
 		}
 		grid.push(row);
 	}
 	
+	// Flood fill from (0,0)
+	stack = [];
+	filledCount = 0;
+	floodFill(0, 0);
+	
+	function floodFill(x, y) {
+		stack.push([x, y]);
+		while (stack.length > 0) {
+			fillSquare(stack.pop());
+		}
+	}
+	
+	function fillSquare(coord) {
+		x = coord[0];
+		y = coord[1];
+		if (x >= 0 && x < testScale && y >= 0 && y < testScale) {
+			if (isFillable(x, y)) {
+				grid[x][y].filled = true;
+				filledCount++;
+			}
+			if (isFillable(x+1, y)) {
+				stack.push([x+1, y]);
+			}
+			if (isFillable(x-1, y)) {
+				stack.push([x-1, y]);
+			}
+			if (isFillable(x, y+1)) {
+				stack.push([x, y+1]);
+			}
+			if (isFillable(x, y-1)) {
+				stack.push([x, y-1]);
+			}
+		}
+	}
+	
+	function isFillable(x, y) {
+		if (x >= 0 && x < testScale && y >= 0 && y < testScale) {
+			return (grid[x][y].accessible && !grid[x][y].filled);
+		}
+	}
+	
 	drawGrid(grid, 4);
-
+	
+	return filledCount * 4;
+	
 }
 
 function drawGrid(grid, gridScale) {
-	
 	grid.forEach(function(row, y) {
 		row.forEach(function(space, x) {
-			c = (space? "purple" : "silver");
-			$("canvas").drawRect({
+			c = (space.accessible?  (space.filled? "purple" : "silver") : "red");
+			$("canvas").drawArc({
 				fillStyle: c,
 				x: x * gridScale + gridScale,
 				y: y * gridScale + gridScale,
-				width: gridScale - 1,
-				height: gridScale - 1
+				radius: (gridScale * (2/5))
 			});
 		});
 	});
