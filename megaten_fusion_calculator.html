@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>SMT: Imagine Demon Fusion Calculator</title>
+<link rel="stylesheet" href="main.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
+<script type="text/javascript" src="fusion_calculator.js"></script>
+<script type="text/javascript" src="families.js"></script>
+<script type="text/javascript" src="demons.js"></script>
+<script type="text/javascript" src="fusions.js"></script>
+</head>
+
+<body>
+<center>
+<div id="header"><h2>SMT: Imagine Demon Fusion Calculator</h2></div>
+<table><tr><td>
+<div id="container">
+
+<div id="tabs">
+<ul>
+<li><a href="#tab-1">Standard</a></li>
+<li><a href="#tab-2">Reverse</a></li>
+</ul>
+
+<div id="tab-1">
+<form>
+Demon 1: <select id="d1" onchange="dropdown_update(this.value,'lvl1')" class="full_demon_listing">
+</select> Level: <input type="text" id="lvl1" value=36 onchange="update()"><br>
+Demon 2: <select id="d2" onchange="dropdown_update(this.value,'lvl2')" class="full_demon_listing">
+</select> Level: <input type="text" id="lvl2" value=36 onchange="update()"><hr>
+<p id="result_text">Result</p>
+</form>
+</div>
+
+<div id="tab-2">
+<form>
+Target: <select id="target" onchange="reverse_start_relist(this.value)" class="full_demon_listing">
+</select><br>
+Start with: <select id="start" onchange="reverse_start_changed(this.value)" class="start_with_listing">
+</select> Level: <input type="text" id="start_lvl" onchange="reverse_update()"><hr>
+<p id="reverse_result_text">Result</p>
+</form>
+</div>
+
+</div></div>
+</td></tr></table>
+</center>
+<p id="out"></p>
+</body>
+</html>
