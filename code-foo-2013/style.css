@@ -1,0 +1,34 @@
+body {}
+
+#search {
+	float: left
+}
+
+#words {
+	float: left;
+	list-style:none;
+	font-size:14px;
+	padding-left:10px;
+	margin:0px;
+	height:400px;
+	width:400px;
+	font-family:Verdana, Geneva, sans-serif;
+}
+
+#words .word {
+	float:left;
+	background-color:#aae;
+	width:140px;
+	height:15px;
+	padding:5px;
+	margin:1px;
+}
+
+#words .new {
+	float:left;
+	background-color:#ccc;
+	width:140px;
+	height:15px;
+	padding:5px;
+	margin:1px;
+}
